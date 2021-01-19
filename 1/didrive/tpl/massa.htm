@@ -1,0 +1,326 @@
+<div class="container" >
+
+    <form class="base__send_form_ajax" 
+          action="/vendor/didrive_mod/bibi/1/didrive/micro-service/massa-edit-phones-1step.php" 
+          resto_id="res1step"
+          after_send_show_id="after_send_show_id"
+          after_send_show_id2="show_res2_sub"
+          hide_id_before_job_ok="after_send_show_id"
+          >
+        <div class="row" >
+            <div class="col"  >
+
+                <h3>список номеров</h3>
+                <small>( 1 номер в 1 строке )<br/>номера в любом виде лижбы цифр хватало ) +79*** | 89*** | 9***</small>
+
+                <br/>            
+                <textarea name="phones" rows="20">{#{% spaceless %}
+                    {% for i in range(0,15) %}{{ random(['8-9','+79','+7-9','9'])~random(9)~random(9) ~ '-' ~ random(9)~random(9)~random(9) ~ '-' ~ random(9)~random(9) ~ '-' ~ random(9)~random(9) }}
+                    {% endfor %}
+                    {% endspaceless %}#}</textarea>
+
+                </div>
+                <div class="col"  >
+                    что делаем с указанными номерами
+                    <div style="border-left: 2px solid blue; padding-left: 10px;" >
+                        <h3 class="mb-3" >Присвоить статус:</h3>
+                        <div style="padding-left: 15px;">
+                            <label style="background-color: rgba(0,255,0,0.15); padding: 2px;" class="mb-1">
+                                <input type="radio" name="new_type" value="reg_on" /> свободен для реги
+                            </label>
+                            <br/>
+                            <label style="background-color: rgba(255,0,0,0.15); padding: 2px;" class="mb-3" > 
+                                <input type="radio" name="new_type" value="reg_off" checked='' /> не свободен для реги
+                            </label>
+                            {#                <br/>
+                                            <label>
+                                            <input type="radio" name="new_type" value="reg_on" /> 1) свободен для реги
+                                            </label>
+                                            <br/>
+                                            <label>
+                                            <input type="radio" name="new_type" value="reg_on" /> 1) свободен для реги
+                                            </label>
+                                            <br/>
+                                            2) зареген
+                                            <br/>
+                                            3) забронирован
+                                            <br/>
+                                            4) не доступен для реги
+                            #}            
+                        </div>
+
+
+                        <label>
+                            <h3>Установить цену для номеров:</h3>
+                            <div style="padding-left: 15px;">
+                                {#<input type="text" name="new_price" value="" class="form-control" placeholder="в рублях"/>#}
+
+                                <div class="input-group xmb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">руб</span>
+                                        {#<span class="input-group-text">0.00</span>#}
+                                    </div>
+                                    <input type="number" name="new_price" min="0" step="1" class="form-control" aria-label="цена в рублях">
+                                </div>                    
+                                <small>если цена не указана, то номера будут бесплатными</small>
+
+                            </div>
+                        </label>
+                        <br/>
+                        <br/>
+                        <button type="submit" name="go" value="go1" class="btn btn-info">
+                            горшочек вари!
+                        </button>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+
+        <div class="row" >
+            <div class="col"  >
+                <hr>
+            </div>
+        </div>
+
+                                    
+                                    
+        <form class="base__send_form_ajax" 
+              action="/vendor/didrive_mod/bibi/1/didrive/micro-service/massa-edit-phones-2step.php" 
+              resto_id="res2step2"
+              xafter_send_show_id="res2after_send_show_id"
+              xhide_id_before_job_ok="res2after_send_show_id"
+              >                
+
+            <div class="row" >
+
+                <div class="col"  >
+
+                    <div style="display: none;" id="after_send_show_id" >
+                        <img src="/img/load.gif" />
+                    </div>
+
+                    <div style="border-left: 4px solid orange; padding-left: 10px;" id="res1step" >
+                        <br/>
+                        <br/>
+                        результат подготовки операции (1-ая проверка)
+                        <br/>
+                        <br/>
+                        <br/>
+                    </div>
+
+                </div>
+                <div class="col"  >
+
+                    <div style='position: sticky; top: 10px;' >
+                    <button type="submit" name="save2" class='btn btn-info' style='display:none;' id='show_res2_sub' >Делай!</button>
+
+                    <div id="res2step2" ></div>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+
+
+    {% if 1 == 2 %}
+
+        <div style="position: absolute; top: 25px; left: 150px; z-index: 5555; xbackground-color: rgba(0,0,0,0.15); border-radius: 10px; padding: 2px; text-align:center;" >
+
+
+            {% if get.tt is defined and get.tt == 'massa' %}
+                {% set type22 = 'massa' %}
+            {% else %}
+                {% set type22 = 'norm' %}
+            {% endif %}
+
+            <a class="btn btn-xs {% if type22 == 'norm' %} btn-info {% else %} btn-light {% endif %}" href="?level={{ get.level }}&tt=norm" >норм режим</a>
+            <a class="btn btn-xs {% if type22 == 'massa' %} btn-info {% else %} btn-light {% endif %}" href="?level={{ get.level }}&tt=massa" >массовые операции</a>
+        </div>
+
+
+        {% if type22 == 'massa' %}
+
+            {% include 'massa.htm' %}
+
+        {% else %}
+
+
+            <style>
+                .stic-top2{
+                    position: sticky;
+                    top: 90px;
+                    background-color: rgba( 255,255,255,0.8);
+                    display: block;
+                    z-index:50;
+                }
+            </style>
+
+            {#{% if get.type is defined and get.type == 'old' %}
+                {% set m_type = 'old' %}
+            {% else %}
+                {% set m_type = 'index' %}
+            {% endif %}
+            
+            <a class="btn {% if m_type == 'old' %}btn-success{% else %}btn-light{% endif %}" href="?level={{ level }}&type=old" >норм вид</a>
+            <a class="btn {% if m_type == 'index' %}btn-success{% else %}btn-light{% endif %}" href="?level={{ level }}&type=index" >добавляем обороты рук.</a>
+            
+            {% if m_type == 'old' %}
+                {% include '/vendor/didrive_mod/items/3/didrive/tpl/body.htm' %}
+            {% else %}
+                {% include '/sites/yadom_admin/module/sale_point_oborot/tpl.didrive/body2.htm' %}
+            {% endif %}#}
+
+
+            <form action="" class="xstic-top2" >
+                <div class="row" >
+                    <div class="col-xs-12 col-sm"  >
+                        <h3 style="display: inline-block; float: left;">поиск номера
+                            <input type="text" id="search_phone" 
+                                   name="number" value="" 
+                                   class="didrive__edit_show_res" 
+
+                                   uri_ajax="/vendor/didrive_api/bibi/1/micro-service/showListNumbers.php"
+                                   show_to_id="show_search_numbers"
+
+                                   s="{{ creatSecret(123) }}"
+                                   placeholder="введите часть номера"
+
+                                   style="text-align: center;"
+                                   add_pole1_radio_name="pays"
+                                   add_pole2_radio_name="avalible"
+
+                                   show_id_before_loading="show_search_numbers_loading"
+                                   hide_now_and_show_id_after_loading="show_search_numbers"
+
+                                   />
+                        </h3>
+                    </div>
+                    <div class="col-xs-12 col-sm"  >
+                        <div style="display: inline-block;  float: left;">
+                            <label><nobr><input type="radio" name="pays" value="all" onchange="textarea.text($('#search_phone').text()).trigger('keyup');" checked="" /> все</nobr></label>
+                            <br/>
+                            <label><nobr><input type="radio" name="pays" value="on" onchange="textarea.text($('#search_phone').text()).trigger('keyup');" /> с платежами</nobr></label>
+                                    {#<br/>
+                                    <label><nobr><input type="radio" name="pays" value="empty" /> без платежей</nobr></label>#}
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-sm"  >
+                        <div style="display: inline-block;  float: left;">
+                            <label><nobr><input type="radio" name="avalible" value="all" checked=""  /> все</nobr></label>
+                            <br/>
+                            <label><nobr><input type="radio" name="avalible" value="reg_on" onchange="textarea.text($('#search_phone').text()).trigger('keyup');"  /> доступен</nobr></label>
+                            <br/>
+                            <label><nobr><input type="radio" name="avalible" value="reg_bron" onchange="textarea.text($('#search_phone').text()).trigger('keyup');"  /> забронирован</nobr></label>
+                            <br/>
+                            <label><nobr><input type="radio" name="avalible" value="reg_off" onchange="textarea.text($('#search_phone').text()).trigger('keyup');"  /> не доступен</nobr></label>
+                            <br/>
+                            <label><nobr><input type="radio" name="avalible" value="reg_ok" onchange="textarea.text($('#search_phone').text()).trigger('keyup');"  /> зареген</nobr></label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-xs-12 col-sm-8" >
+                        {% if 1 == 2 %}
+                            {% set dogs = items__get(db,'701.beeline_dogovors','show','id_id') %}
+                            {#{{ pa(dogs) }}#}
+                            <label>
+                                <input type="checkbox" name="dog[]" value="all" />
+                                {#<a href="?level={{ get.level }}" class="btn {% if get.dog is not defined %}btn-success{% else %}btn-light{% endif %} btn-xs" style="margin:2px;" >все</a>#}
+                                все
+                            </label>
+
+                            {% for k,v in dogs %}
+                                <label>
+                                    <input type="checkbox" name="dog[]" value="{{ v.id }}" />
+                                    {#<a href="?level={{ get.level }}&dog={{ v.id }}" class="btn {% if get.dog is defined and get.dog == v.id %}btn-success{% else %}btn-light{% endif %} btn-xs" style="margin:2px;" >{{ v.head }}</a>#}
+                                    {{ v.head }}
+                                </label>
+                            {% endfor %}
+
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+
+            {% if 1 == 2 %}
+                <div class="row" >
+                    <div class="col-xs-12 col-sm-4" >
+                        <br/>
+                        <br/>
+                    </div>
+                </div>
+
+                <div class="row" >
+                    <div class="col-xs-12 col-sm-4" >
+                    </div>
+                    <div class="col-xs-12 col-sm-8" >
+                        {% set dogs = items__get(db,'701.beeline_dogovors','show','id_id') %}
+                        {#{{ pa(dogs) }}#}
+                        <a href="?level={{ get.level }}" class="btn {% if get.dog is not defined %}btn-success{% else %}btn-light{% endif %} btn-xs" style="margin:2px;" >все</a>
+                        {% for k,v in dogs %}
+                            <a href="?level={{ get.level }}&dog={{ v.id }}" class="btn {% if get.dog is defined and get.dog == v.id %}btn-success{% else %}btn-light{% endif %} btn-xs" style="margin:2px;" >{{ v.head }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            {% endif %}
+
+            <div class="row" >
+                <div class="col-xs-12 
+                     xcol-sm-8 xcol-sm-offset-2 
+                     xcol-md-8 xcol-md-offset-2 
+                     xcol-lg-8 xcol-lg-offset-2 
+                     xcol-xl-8 xcol-xl-offset-2 
+                     text-center" >
+
+
+                    <div id="show_search_numbers_loading" style="display:none;" ><img src="/img/load.gif" alt="" border="" /></div>
+
+                    <div id="show_search_numbers" >
+
+                        {% if 1 == 2 and get.dog is defined %}
+                            {% set numbers = items__get(db,'701.beeline_phones','show','id_id') %}
+                            {#{{ pa(numbers) }}#}
+                            <table class="table" >
+
+                                <thead>
+                                    <tr>
+                                        <th>Номер</th>
+                                        <th>Тариф</th>
+                                        <th>Занят/не занят</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for k,v in numbers if v.ctn is not empty and ( ( get.dog is defined and get.dog == v.dogovor_id ) or get.dog is not defined ) %}
+                                        <tr>
+                                            <td>{{ v.ctn }}</td>
+                                            <td>{{ v.priceplan }}</td>
+                                            <td>
+                                                <button class="btn btn-xs btn-light" >занят</button>
+                                                <button class="btn btn-xs btn-success" >свободен</button>
+                                            </td>
+                                            <td>
+                                                {#{{ pa(v) }}#}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
